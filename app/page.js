@@ -30,7 +30,7 @@ export default function Home() {
     setCurrentIndex((prevIndex) => (prevIndex + 1) % images.length);
   };
 
-  const bottletopPosition = Math.min(scrollY * 0.9, 1010);
+  const bottletopPosition = Math.min(scrollY * 0.9, 1020);
   const bottleBottomPosition = Math.min(scrollY * 0.6, 620);
 
   return (
