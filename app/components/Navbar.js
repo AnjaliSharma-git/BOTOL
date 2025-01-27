@@ -1,5 +1,3 @@
-import Link from "next/link";
-
 export default function Navbar() {
   return (
     <header className="bg-white text-black flex justify-between items-center p-4 mx-10">
