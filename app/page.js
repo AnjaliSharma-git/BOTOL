@@ -19,8 +19,8 @@ export default function Home() {
 
   useEffect(() => {
     const handleResize = () => {
-      setWindowWidth(window.innerWidth);
-      setWindowHeight(window.innerHeight);
+      setWindowWidth(window.innerWidth);  // Updates the width
+      setWindowHeight(window.innerHeight);  // Updates the height
     };
 
     const handleScroll = () => {
@@ -202,7 +202,7 @@ export default function Home() {
 
       {/* Hero Content */}
       <div className="absolute inset-0 flex flex-col items-center justify-center w-3/4 mx-auto my-4 ">
-        <h1 className="text-7xl font-bold text-center w-[1512px] font-Familjen Grotesk mt-[2rem] zoom-in">
+        <h1 className="text-7xl font-bold text-center w-[1512px] font-Familjen Grotesk mt-[4rem] zoom-in">
           The Ultimate Companion
           <br /> for Hydration
         </h1>
