@@ -42,45 +42,31 @@ export default function Home() {
     setCurrentIndex((prevIndex) => (prevIndex + 1) % images.length);
   };
 
-  const bottletopPosition = Math.min(scrollY * 0.9, 1020);
-  const bottleBottomPosition = Math.min(scrollY * 0.6, 620);
+  const bottletopPosition = Math.min(scrollY * 0.9, 880);
+  const bottleBottomPosition = Math.min(scrollY * 0.6, 500);
 
-  const getAnimationSpeed = () => {
+  // Dynamic sizing for bottle cap and bottom height based on scroll position and screen size
+  const getBottleSize = () => {
+    let baseWidth = 180; // Default width for the bottle
+    let baseHeight = 300; // Default height for the bottle
+
+    // Scale down for smaller screens
     if (windowWidth < 480) {
-      return 1; // Slower speed for smaller screens
+      baseWidth = 140;
+      baseHeight = 240;
     } else if (windowWidth < 768) {
-      return 1.2;
-    } else if (windowWidth < 1024) {
-      return 1.5;
-    } else {
-      return 2; // Faster speed for larger screens
+      baseWidth = 160;
+      baseHeight = 270;
     }
+
+    // Calculate dynamic height based on scroll position
+    const scrollFactor = scrollY * 0.2; // Adjust scroll effect
+    const dynamicHeight = baseHeight + scrollFactor;
+
+    return { width: baseWidth, height: dynamicHeight };
   };
 
-  const animationSpeed = getAnimationSpeed();
-
-  // Calculate scalable sizes for the bottle cap and bottom
-  const getScaledSize = (baseSize) => {
-    if (windowWidth < 480) return baseSize * 0.6; // Smaller screens
-    if (windowWidth < 768) return baseSize * 0.8; // Medium screens
-    if (windowWidth < 1024) return baseSize; // Large screens
-    return baseSize * 1.2; // Extra large screens
-  };
-
-  const bottleCapSize = getScaledSize(180);
-  const bottleBottomSize = getScaledSize(180);
-
-  // Calculate scalable sizes for content images
-  const getScaledContentSize = (baseWidth, baseHeight) => {
-    if (windowWidth < 480) return { width: baseWidth * 0.8, height: baseHeight * 0.8 }; // Small screens
-    if (windowWidth < 768) return { width: baseWidth * 0.9, height: baseHeight * 0.9 }; // Medium screens
-    if (windowWidth < 1024) return { width: baseWidth, height: baseHeight }; // Large screens
-    return { width: baseWidth * 1.2, height: baseHeight * 1.2 }; // Extra large screens
-  };
-
-  const specialFeaturesSize = getScaledContentSize(1512, 860);
-  const productSize = getScaledContentSize(1320, 1250);
-  const carouselSize = getScaledContentSize(1512, 552);
+  const { width: bottleCapSize, height: bottleHeight } = getBottleSize(); // Dynamic width and height for bottle
 
   return (
     <div>
@@ -94,7 +80,7 @@ export default function Home() {
             border-radius: 50%;
             background: linear-gradient(to bottom, cyan, blue);
             margin-top: -2rem;
-            animation: zoomIn ${animationSpeed}s ease-in-out forwards;
+            animation: zoomIn 2s ease-in-out forwards;
           }
           .gradient-border::before {
             content: '';
@@ -134,7 +120,7 @@ export default function Home() {
           }
 
           .bottle-cap, .bottle-bottom, .gradient-border {
-            animation-duration: ${animationSpeed}s;
+            animation-duration: 2s;
             animation-timing-function: ease-in-out;
             animation-delay: 0s;
             animation-fill-mode: forwards;
@@ -149,11 +135,11 @@ export default function Home() {
           }
 
           .zoom-in {
-            animation: zoomInContent ${animationSpeed}s ease-in-out forwards;
+            animation: zoomInContent 2s ease-in-out forwards;
           }
 
           .slide-in-button {
-            animation: slideInFromBottom ${animationSpeed}s ease-in-out forwards;
+            animation: slideInFromBottom 2s ease-in-out forwards;
           }
 
           .scroll-section {
@@ -195,6 +181,7 @@ export default function Home() {
           alt="A bottle cap"
           className="absolute top-[40%] transform -translate-y-1/2 bottle-cap z-20"
           width={bottleCapSize}
+          height={bottleHeight}  // Dynamic height and width
           style={{
             top: scrollY === 0 ? '40%' : `calc(40% + ${bottletopPosition}px)`,
           }}
@@ -204,8 +191,8 @@ export default function Home() {
           src="/images/bottle_bottom_complete.png"
           alt="A bottle bottom"
           className="absolute top-[78%] transform -translate-y-1/2 bottle-bottom z-20"
-          height={bottleBottomSize}
-          width={bottleBottomSize}
+          width={bottleCapSize} // Dynamic width
+          height={bottleHeight}  // Dynamic height
           style={{
             top: scrollY === 0 ? '78%' : `calc(78% + ${bottleBottomPosition}px)`,
           }}
@@ -245,8 +232,8 @@ export default function Home() {
           src="/images/special_Features.png"
           className="content-img"
           alt="Special Features"
-          width={specialFeaturesSize.width}
-          height={specialFeaturesSize.height}
+          width="1512"
+          height="860"
         />
       </div>
       <div className="content-container">
@@ -254,8 +241,8 @@ export default function Home() {
           src="/images/product.png"
           className="content-img"
           alt="Product"
-          width={productSize.width}
-          height={productSize.height}
+          width="1320"
+          height="1250"
         />
       </div>
 
@@ -264,7 +251,7 @@ export default function Home() {
         <motion.div
           className="flex"
           initial={{ x: 0 }}
-          animate={{ x: `-${currentIndex * carouselSize.width}px` }}
+          animate={{ x: `-${currentIndex * 1512}px` }}
           transition={{ type: "spring", mass: 1, stiffness: 10.24, damping: 4.8 }}
         >
           {images.map((src, index) => (
@@ -273,8 +260,8 @@ export default function Home() {
               src={src}
               className="cursor-pointer flex-shrink-0"
               onClick={handleNext}
-              width={carouselSize.width}
-              height={carouselSize.height}
+              width="1512"
+              height="552"
             />
           ))}
         </motion.div>
