@@ -2,6 +2,7 @@
 import { motion } from "framer-motion";
 import { useState, useEffect, useRef } from "react";
 import Navbar from "./components/Navbar";
+import Image from "next/image"; // Import next/image for image optimization
 
 export default function Home() {
   const images = [
@@ -14,17 +15,15 @@ export default function Home() {
   const [currentIndex, setCurrentIndex] = useState(0);
   const [scrollY, setScrollY] = useState(0);
   const [windowWidth, setWindowWidth] = useState(1200); // Default value for SSR
-  const [windowHeight, setWindowHeight] = useState(800); // Default value for SSR
   const bottleRef = useRef(null);
 
   useEffect(() => {
     const handleResize = () => {
-      setWindowWidth(window.innerWidth);  // Updates the width
-      setWindowHeight(window.innerHeight);  // Updates the height
+      setWindowWidth(window.innerWidth); // Updates the width
     };
 
     const handleScroll = () => {
-      setScrollY(window.scrollY);
+      setScrollY(window.scrollY); // Update scrollY position
     };
 
     window.addEventListener("resize", handleResize);
@@ -176,7 +175,7 @@ export default function Home() {
       <main className="flex flex-col items-center justify-center h-screen relative">
         <div className="gradient-border flex items-center justify-center"></div>
 
-        <img
+        <Image
           src="/images/bottlescap.png"
           alt="A bottle cap"
           className="absolute top-[40%] transform -translate-y-1/2 bottle-cap z-20"
@@ -187,7 +186,7 @@ export default function Home() {
           }}
         />
 
-        <img
+        <Image
           src="/images/bottle_bottom_complete.png"
           alt="A bottle bottom"
           className="absolute top-[78%] transform -translate-y-1/2 bottle-bottom z-20"
@@ -216,33 +215,33 @@ export default function Home() {
         </a>
       </div>
 
-       {/* Small Bottles */}
-       <div className="flex justify-between w-full mt-16 px-16">
+      {/* Small Bottles */}
+      <div className="flex justify-between w-full mt-16 px-16">
         <div className="w-24 h-24 rounded-full bg-gradient-to-r from-cyan-400 to-blue-600 flex items-center justify-center mt-[-18rem] zoom-in">
-          <img alt="Small water bottle image" height="125px" src="/images/bottle_left.png" width="125px" />
+          <Image alt="Small water bottle image" height={125} src="/images/bottle_left.png" width={125} />
         </div>
         <div className="w-24 h-24 rounded-full bg-gradient-to-r from-cyan-400 to-blue-600 flex items-center justify-center mt-[-18rem] zoom-in">
-          <img alt="Small water bottle image" height="125px" src="/images/bottle_right.png" width="125px" />
+          <Image alt="Small water bottle image" height={125} src="/images/bottle_right.png" width={125} />
         </div>
       </div>
 
       {/* Content Sections */}
       <div className="content-container">
-        <img
+        <Image
           src="/images/special_Features.png"
           className="content-img"
           alt="Special Features"
-          width="1512"
-          height="860"
+          width={1512}
+          height={860}
         />
       </div>
       <div className="content-container">
-        <img
+        <Image
           src="/images/product.png"
           className="content-img"
           alt="Product"
-          width="1320"
-          height="1250"
+          width={1320}
+          height={1250}
         />
       </div>
 
@@ -255,21 +254,32 @@ export default function Home() {
           transition={{ type: "spring", mass: 1, stiffness: 10.24, damping: 4.8 }}
         >
           {images.map((src, index) => (
-            <motion.img
+            <motion.div
               key={index}
-              src={src}
-              className="cursor-pointer flex-shrink-0"
               onClick={handleNext}
-              width="1512"
-              height="552"
-            />
+              className="cursor-pointer flex-shrink-0"
+            >
+              <Image
+                src={src}
+                alt={`Carousel image ${index}`}
+                width={1512}
+                height={552}
+              />
+            </motion.div>
           ))}
         </motion.div>
       </div>
 
       {/* Footer */}
       <div className="content-container">
-        <img src="/images/footer.png" className="content-img" alt="Footer" />
+      <Image
+  src="/images/footer.png"
+  className="content-img"
+  alt="Footer"
+  width={1512}  // You can adjust this based on your desired image width
+  height={300}  // Adjust the height according to the aspect ratio of the image
+/>
+
       </div>
     </div>
   );
